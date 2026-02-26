@@ -6,6 +6,8 @@ import {
   deleteSubject
 } from "./db.js";
 
+alert("app.js loaded");
+
 let db = null;
 let lastSubjectId = null;
 let lastMinutes = null;
@@ -458,3 +460,4 @@ $("resetAllBtn").addEventListener("click", async () => {
 }
 
 main();
+
