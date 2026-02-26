@@ -448,17 +448,16 @@ $("resetAllBtn").addEventListener("click", async () => {
   await refreshStats();
 
   //PWA 등록
- if ("serviceWorker" in navigator) {
-  navigator.serviceWorker
-    .register("./sw.js")
-    .then(() => {
-      console.log("Service Worker registered");
-    })
-    .catch((err) => {
-      console.error("Service Worker registration failed:", err);
-    });
-}
-}
+  // PWA 등록
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker
+      .register("./sw.js")
+      .then(() => console.log("Service Worker registered"))
+      .catch((err) => console.error("Service Worker registration failed:", err));
+  }
+}   // ✅ 이 줄(중괄호) 반드시 추가: main() 함수 닫기
+
 main();
+
 
 
