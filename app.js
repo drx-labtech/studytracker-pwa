@@ -6,7 +6,7 @@ import {
   deleteSubject
 } from "./db.js";
 
-alert("app.js loaded");
+//alert("app.js loaded");
 
 let db = null;
 let lastSubjectId = null;
@@ -151,7 +151,7 @@ async function refreshSessionUI() {
 
        // ✅ 핵심: DB 세션 자동 종료
        await endSessionNow(db);
-       playEndAlarm(10000);   // 알람 소리 추가 
+       playEndAlarm(5000);   // 알람 소리 추가 
 
        autoEnding = false;
 
@@ -239,7 +239,7 @@ function drawRing(progress) {
   }
 }
 
-function playEndAlarm(ms = 10000) {
+function playEndAlarm(ms = 5000) {
   try {
     // 모바일 진동(가능하면)
     if (navigator.vibrate) navigator.vibrate([200, 200, 200, 200, 200]);
@@ -458,6 +458,7 @@ $("resetAllBtn").addEventListener("click", async () => {
 }   // ✅ 이 줄(중괄호) 반드시 추가: main() 함수 닫기
 
 main();
+
 
 
 
