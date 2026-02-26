@@ -458,6 +458,7 @@ $("resetAllBtn").addEventListener("click", async () => {
       console.error("Service Worker registration failed:", err);
     });
 }
-
+}
 main();
+
 
