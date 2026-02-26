@@ -1,4 +1,4 @@
-const CACHE_NAME = "studytracker-v1";
+const CACHE_NAME = "studytracker-v2";
 
 const ASSETS = [
   "./",
@@ -42,4 +42,5 @@ self.addEventListener("fetch", (event) => {
       return response || fetch(event.request);
     })
   );
+
 });
