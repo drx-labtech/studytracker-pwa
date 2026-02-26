@@ -1,0 +1,179 @@
+:root { font-family: system-ui, -apple-system, "맑은 고딕", sans-serif; }
+body { margin:0; background:#f6f6f7; color:#111; }
+.topbar { position: sticky; top:0; background:#fff; padding:12px 14px; border-bottom:1px solid #e5e5e8; display:flex; justify-content:space-between; align-items:center; }
+.title { font-weight:700; }
+.now { color:#666; font-size:12px; }
+
+.wrap { padding:14px; display:grid; gap:12px; max-width:720px; margin:0 auto; }
+.card { background:#fff; border:1px solid #e5e5e8; border-radius:14px; padding:12px; box-shadow:0 1px 0 rgba(0,0,0,.03); }
+h2 { margin:0 0 10px; font-size:16px; }
+.row { display:flex; gap:10px; align-items:center; margin:8px 0; }
+.row label { width:44px; color:#666; font-size:13px; }
+.row.actions { justify-content:flex-start; flex-wrap:wrap; gap:8px; }
+button { padding:10px 12px; border-radius:12px; border:1px solid #ddd; background:#fff; cursor:pointer; }
+button.primary { border-color:#111; background:#111; color:#fff; }
+button:disabled { opacity:.45; cursor:not-allowed; }
+select, input { padding:10px 12px; border-radius:12px; border:1px solid #ddd; width:100%; }
+.mins { display:flex; gap:8px; flex-wrap:wrap; width:100%; }
+.chip { padding:8px 10px; font-size:13px; }
+.status { margin-top:8px; color:#333; font-size:13px; white-space:pre-line; }
+.countdown { margin-top:6px; font-weight:700; font-size:18px; }
+.list { display:grid; gap:6px; }
+.item { display:flex; justify-content:space-between; padding:8px 10px; border:1px solid #eee; border-radius:12px; }
+.total { margin-top:8px; color:#666; font-size:13px; text-align:right; }
+.hint { color:#777; font-size:12px; margin-top:6px; }
+.fileLabel { display:inline-flex; align-items:center; gap:8px; padding:10px 12px; border-radius:12px; border:1px solid #ddd; background:#fff; cursor:pointer; }
+.fileLabel input { display:none; }
+
+.timerWrap{
+  width: 220px;
+  margin: 16px auto 0;  /* 가운데 */
+  display: grid;
+  place-items: center;
+}
+
+.countdown.below{
+  text-align: center;
+  font-size: 22px;
+  font-weight: 500;
+  color: #ff8a00;
+  opacity: 0.9;
+}
+
+button.danger{
+  background: transparent;
+  border: 1px solid #ddd;
+  color: #888;
+}
+
+button.danger:hover{
+  border-color: #ff8a00;
+  color: #ff8a00;
+}
+
+/* 프리셋 버튼 기본 */
+.chip{
+  border: 1px solid #ddd;
+  background: #fff;
+  color: #222;
+  border-radius: 999px;
+  padding: 6px 12px;
+}
+
+/* 선택된 프리셋 버튼 */
+.chip.active{
+  background: #ff8a00;      /* StudyTracker 주황 */
+  border-color: #ff8a00;
+  color: #fff;
+  font-weight: 700;
+}
+
+.chip:hover{ border-color:#ff8a00; }
+
+.countdown{
+  text-align: center;
+  width: 100%;
+  margin-top: 8px;
+  font-size: 22px;      /* 적당히 */
+  font-weight: 600;
+  color: #ff8a00;
+}
+
+.countdown{
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.countdown.running{
+  color: #ff8a00;   /* 주황 */
+}
+
+.countdown.done{
+  color: #999;      /* 완료/대기 */
+}
+
+.row.actions{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.row.actions button,
+.fileLabel{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.fileLabel{
+  flex: 0 0 auto;     /* 🔥 flex 줄어듦 방지 */
+  min-width: 150px;   /* 🔥 버튼 최소 폭 확보 */
+}
+
+.fileLabel input[type="file"]{
+  display: none;
+}
+
+.row.actions{
+  gap: 10px;
+}
+
+
+
+/* 항목 카드의 버튼 높이를 입력창과 맞춤 */
+#addSubjectBtn,
+#renameSubjectBtn,
+#deleteSubjectBtn{
+  height: 42px;
+  padding: 0 14px;     /* 세로 패딩 제거해서 높이 안정 */
+  white-space: nowrap;
+}
+
+button.danger{
+  border-color: #ffd1a3;
+  color: #ff8a00;
+}
+
+.about-section {
+  padding: 40px 20px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.about-section h2 {
+  margin-bottom: 10px;
+}
+
+.about-section h3 {
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+
+.about-section ul {
+  padding-left: 18px;
+}
+
+.about-section hr {
+  margin: 20px 0;
+  border: none;
+  border-top: 1px solid #ddd;
+}
+
+.blog-link a {
+  display: inline-block;
+  margin-top: 10px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+
+
+#startBtn.primary { background:#111 !important; color:#fff !important; }

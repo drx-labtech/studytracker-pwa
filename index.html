@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ko">
+//<head>
+//  <meta charset="utf-8" />
+//  <meta name="viewport" content="width=device-width,initial-scale=1" />
+//  <link rel="manifest" href="manifest.webmanifest" />
+//  <link rel="stylesheet" href="styles.css" />
+//  <title>StudyTracker</title>
+//</head>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#1f2937" />
+
+  <!-- iPhone(홈화면 아이콘/앱모드) -->
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+  <link rel="stylesheet" href="styles.css" />
+  <title>StudyTracker</title>
+</head>
+<body>
+  <header class="topbar">
+    <div class="title">StudyTracker</div>
+    <div id="now" class="now"></div>
+  </header>
+
+  <main class="wrap">
+    <section class="card">
+      <h2>세션</h2>
+      <div class="row">
+        <label>항목</label>
+        <select id="subjectSelect"></select>
+      </div>
+
+      <div class="row">
+        <label>분</label>
+        <div class="mins">
+          <button class="chip" data-min="10">10</button>
+          <button class="chip" data-min="25">25</button>
+          <button class="chip" data-min="50">50</button>
+          <button class="chip" data-min="100">100</button>
+          <input id="customMin" type="number" min="1" max="360" placeholder="직접입력" />
+        </div>
+      </div>
+
+      <div class="row actions">
+        <button id="startBtn" class="primary">시작</button>
+        <button id="endBtn">종료</button>
+        <button id="repeatBtn">반복</button>
+      </div>
+
+      <div id="sessionStatus" class="status"></div>
+
+      <div class="timerWrap">
+        <canvas id="ringCanvas" width="200" height="200"></canvas>
+      </div>
+        <div id="countdown" class="countdown"></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>오늘 통계</h2>
+      <div id="todayStats" class="list"></div>
+      <div id="todayTotal" class="total"></div>
+      <div class="row actions">
+        <button id="resetTodayBtn">오늘 기록 삭제</button>
+        <button id="resetAllBtn" class="danger">전체 기록 삭제</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>누적 통계</h2>
+      <div id="totalStats" class="list"></div>
+      <div id="totalTotal" class="total"></div>
+      <div class="row actions">
+      <button id="resetTodayBtn">오늘 기록 삭제</button>
+      <button id="resetAllBtn" class="danger">전체 기록 삭제</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>항목</h2>
+      <div class="row">
+        <input id="newSubject" placeholder="새 항목" />
+        <button id="addSubjectBtn">추가</button>
+      </div>
+
+      <div class= "row">
+        <input id="renameSubject" placeholder="변경할 이름 (항목 선택 후 입력)" />
+        <button id="renameSubjectBtn">이름변경</button>
+        <button id="deleteSubjectBtn" class="danger">삭제</button>
+      </div>
+      <div class="hint">※ 서버 없이 기기 내부에 저장됩니다.</div>
+    </section>
+
+    <section class="card">
+      <h2>백업</h2>
+      <div class="row actions">
+        <button id="exportBtn">내보내기(JSON)</button>
+        <label class="fileLabel">
+          <span class="fileText">가져오기(JSON)</span>
+          <input id="importFile" type="file" accept="application/json" />
+        </label>
+      </div>
+      <div class="hint">※ 기기 변경 시 내보내기/가져오기 사용</div>
+    </section>
+
+    <section id="about" class="section about-section">
+      <h2>공부 트래커</h2>
+
+      <p class="version">
+        버전: v1.0<br>
+        © 2026 Dr. X Lab. All rights reserved.
+      </p>
+
+      <hr>
+
+      <h3>사용 팁</h3>
+      <ul>
+        <li>공부는 운동과 같이 습관입니다.</li>
+        <li>처음에는 부담 없는 시간으로 시작하세요.</li>
+        <li>시험 준비 시 시험시간에 맞춰 설정하여 사용하세요 (학원 시간은 활용 시간 할당).</li>
+        <li>꾸준함이 결국 당신의 실력을 끌어올립니다.</li>
+      </ul>
+
+      <hr>
+
+      <h3>안내</h3>
+      <p>
+        이 앱은 광고 없이 무료로 제공됩니다.
+      </p>
+      <p>
+        사용방법, 매뉴얼 및 업데이트 정보는 공식 안내 페이지(블로그)를 참고해주세요.
+      </p>
+
+      <p class="blog-link">
+        <a href="https://blog.naver.com/veenoo" target="_blank">
+          Dr. X 기술사 블로그로 가기
+        </a>
+      </p>
+    </section>
+
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
