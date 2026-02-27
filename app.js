@@ -16,6 +16,30 @@ let autoEnding = false;
 
 const $ = (id) => document.getElementById(id);
 
+let audioUnlocked = false;
+
+function unlockAudioOnce() {
+  if (audioUnlocked) return;
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    const ctx = new AudioCtx();
+
+    const gain = ctx.createGain();
+    gain.gain.value = 0.0001; // 거의 무음
+    gain.connect(ctx.destination);
+
+    const osc = ctx.createOscillator();
+    osc.frequency.value = 440;
+    osc.connect(gain);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.03);
+
+    setTimeout(() => ctx.close(), 100);
+    audioUnlocked = true;
+  } catch (e) {}
+}
+
+
 function isoNowKSTLike() {
   const d = new Date();
   const y = d.getFullYear();
@@ -317,6 +341,7 @@ async function main() {
 
 
   $("startBtn").addEventListener("click", async () => {
+    unlockAudioOnce();   // ✅ 이 줄 추가
     try {
       //const subject_id = Number($("subjectSelect").value);
       const raw = $("subjectSelect").value;                 // ✅ 추가 (raw 선언)
@@ -458,6 +483,7 @@ $("resetAllBtn").addEventListener("click", async () => {
 }   // ✅ 이 줄(중괄호) 반드시 추가: main() 함수 닫기
 
 main();
+
 
 
 
