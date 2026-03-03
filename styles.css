@@ -199,12 +199,11 @@ button, .fileLabel { font-size: 16px; }
   font-size: 18px;
 }
 
-/* 오늘 기록 삭제: 주황 강조 */
+/* 오늘 기록 삭제: 글자만 주황 */
 #resetTodayBtn {
-  border-color: #ff8a00;
   color: #ff8a00;
-  font-weight: 700;
-  font-size: 17px;
+  border-color: #ddd;     /* 테두리는 기본 */
+  font-weight: 500;       /* 볼드 제거 */
 }
 
 /* 호버(PC용) */
@@ -225,3 +224,16 @@ button, .fileLabel { font-size: 16px; }
   font-size: 17px;
   font-weight: 600;
 }
+
+/* 프리셋 버튼 크게 */
+.mins .chip {
+  font-size: 17px;
+  padding: 10px 16px;
+}
+/* 세션 select/input 크게 */
+#subjectSelect,
+#customMin {
+  font-size: 17px;
+  height: 46px;
+}
+
