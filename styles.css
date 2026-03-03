@@ -174,6 +174,54 @@ button.danger{
   text-decoration: none;
 }
 
+/* iPhone 가독성: 기본 폰트/컨트롤 최소 16px */
+body { font-size: 16px; }
+
+.title { font-size: 22px; }          /* 상단 StudyTracker */
+.now { font-size: 14px; }            /* 우측 시간 */
+
+h2 { font-size: 20px; }              /* 카드 제목 */
+
+.row label { font-size: 16px; }      /* "항목", "분" */
+
+/* iOS에서 input/select 글자 너무 작으면 불편함(확대도 발생) */
+select, input { font-size: 16px; }
+
+button, .fileLabel { font-size: 16px; }
 
 
 #startBtn.primary { background:#111 !important; color:#fff !important; }
+
+/* 세션 버튼 크게 */
+#startBtn, #endBtn, #repeatBtn {
+  padding: 12px 18px;
+  border-radius: 14px;
+  font-size: 18px;
+}
+
+/* 오늘 기록 삭제: 주황 강조 */
+#resetTodayBtn {
+  border-color: #ff8a00;
+  color: #ff8a00;
+  font-weight: 700;
+  font-size: 17px;
+}
+
+/* 호버(PC용) */
+#resetTodayBtn:hover {
+  background: #fff7ee;
+}
+
+/* 백업 버튼(내보내기/가져오기) 크기 통일 */
+#exportBtn, .fileLabel {
+  height: 46px;
+  padding: 0 18px;
+  border-radius: 14px;
+  font-size: 17px;
+}
+
+/* fileLabel 안의 글자(span)도 동일 크기 */
+.fileLabel .fileText {
+  font-size: 17px;
+  font-weight: 600;
+}
