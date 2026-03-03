@@ -237,3 +237,6 @@ button, .fileLabel { font-size: 16px; }
   height: 46px;
 }
 
+#renameSubject::placeholder {
+  font-size: 13px;
+}
