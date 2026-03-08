@@ -126,6 +126,12 @@ async function refreshSessionUI() {
     $("countdown").className = "countdown done"; // ⬅ 추가
     setCountdown("");
     stopTick();
+
+    // 추가: 원형 타이머 지우기
+    const canvas = $("ringCanvas");
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
     return;
   }
 
@@ -359,6 +365,14 @@ async function main() {
   $("endBtn").addEventListener("click", async () => {
     try {
       await endSessionNow(db);
+      // 🔹 화면 초기화 추가
+      const countdown = $("countdown");
+      const canvas = $("ringCanvas");
+      const ctx = canvas.getContext("2d");
+  
+      countdown.textContent = "";
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
       await refreshSessionUI();
       await refreshStats();
     } catch (e) {
@@ -369,6 +383,14 @@ async function main() {
   $("repeatBtn").addEventListener("click", async () => {
     try {
       if (lastSubjectId == null || lastMinutes == null) return;
+
+      const countdown = $("countdown");
+      const canvas = $("ringCanvas");
+      const ctx = canvas.getContext("2d");
+  
+      countdown.textContent = "";
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
       await startSession(db, lastSubjectId, lastMinutes);
       await refreshSessionUI();
       await refreshStats();
@@ -478,6 +500,7 @@ $("resetAllBtn").addEventListener("click", async () => {
 }   // ✅ 이 줄(중괄호) 반드시 추가: main() 함수 닫기
 
 main();
+
 
 
 
