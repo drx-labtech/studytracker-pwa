@@ -3,7 +3,7 @@ import {
   getActiveSession, startSession, endSessionNow,
   statsToday, statsTotal, renameSubject,
   exportAll, importAll, resetTodaySessions, resetAllSessions, 
-  deleteSubject
+  deleteSubject, getLast7DaysStats
 } from "./db.js";
 
 //alert("app.js loaded");
@@ -488,7 +488,8 @@ $("resetAllBtn").addEventListener("click", async () => {
 
   await refreshSessionUI();
   await refreshStats();
-
+  await drawWeekChart();
+  
   //PWA 등록
   // PWA 등록
   if ("serviceWorker" in navigator) {
@@ -499,7 +500,45 @@ $("resetAllBtn").addEventListener("click", async () => {
   }
 }   // ✅ 이 줄(중괄호) 반드시 추가: main() 함수 닫기
 
+async function drawWeekChart() {
+  const data = await getLast7DaysStats(db);
+  const subjects = await getSubjects(db);
+
+  const labels = [];
+  const values = [];
+
+  subjects.forEach(s => {
+    const v = data[s.id] || 0;
+    if (v > 0) {
+      labels.push(s.name);
+      values.push(Math.round(v / 60 * 10) / 10);
+    }
+  });
+
+  const canvas = document.getElementById("weekChart");
+  if (!canvas) return;
+
+  new Chart(canvas, {
+    type: "bar",
+    data: {
+      labels,
+      datasets: [{
+        label: "시간",
+        data: values
+      }]
+    },
+    options: {
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { beginAtZero: true }
+      }
+    }
+  });
+}
+
+
 main();
+
 
 
 
