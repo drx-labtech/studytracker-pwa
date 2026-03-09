@@ -502,7 +502,7 @@ $("resetAllBtn").addEventListener("click", async () => {
 
 async function drawWeekChart() {
   const data = await getLast7DaysStats(db);
-  const subjects = await getSubjects(db);
+  const subjects = await listSubjects(db);
 
   const labels = [];
   const values = [];
@@ -538,6 +538,7 @@ async function drawWeekChart() {
 
 
 main();
+
 
 
 
