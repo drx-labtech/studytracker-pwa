@@ -272,3 +272,33 @@ export async function resetSubjectSessions(db, subjectId) {
   });
 }
 
+export async function getLast7DaysStats(db) {
+  const since = new Date();
+  since.setDate(since.getDate() - 6);
+  const sinceDay = since.toISOString().slice(0, 10);
+
+  return new Promise((resolve, reject) => {
+    const store = tx(db, "sessions");
+    const req = store.getAll();
+
+    req.onsuccess = () => {
+      const sessions = req.result;
+
+      const map = {};
+
+      sessions.forEach(s => {
+        if (!s.end_time) return;
+        if (s.start_day < sinceDay) return;
+
+        const minutes = Math.round((s.end_time - s.start_time) / 60000);
+
+        map[s.subject_id] = (map[s.subject_id] || 0) + minutes;
+      });
+
+      resolve(map);
+    };
+
+    req.onerror = () => reject(req.error);
+  });
+}
+
