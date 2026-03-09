@@ -283,17 +283,20 @@ export async function getLast7DaysStats(db) {
 
     req.onsuccess = () => {
       const sessions = req.result;
-
       const map = {};
 
       sessions.forEach(s => {
         if (!s.end_time) return;
-        if (s.start_day < sinceDay) return;
+        if (!s.start_day || s.start_day < sinceDay) return;
 
-        const minutes = Math.round((s.end_time - s.start_time) / 60000);
+        const minutes = Number(s.minutes || 0);
+        if (!Number.isFinite(minutes) || minutes <= 0) return;
 
         map[s.subject_id] = (map[s.subject_id] || 0) + minutes;
       });
+
+      console.log("최근7일 세션:", sessions);
+      console.log("최근7일 집계:", map);
 
       resolve(map);
     };
@@ -301,5 +304,6 @@ export async function getLast7DaysStats(db) {
     req.onerror = () => reject(req.error);
   });
 }
+
 
 
