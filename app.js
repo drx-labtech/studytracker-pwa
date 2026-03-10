@@ -174,7 +174,7 @@ async function refreshSessionUI() {
 
        // ✅ 핵심: DB 세션 자동 종료
        await endSessionNow(db);
-       playEndAlarm(5000);   // 알람 소리 추가 
+       playEndAlarm(3000);   // 알람 소리 추가 
 
        autoEnding = false;
 
@@ -262,7 +262,7 @@ function drawRing(progress) {
   }
 }
 
-function playEndAlarm(ms = 5000) {
+function playEndAlarm(ms = 3000) {
   try {
     // 모바일 진동(가능하면)
     if (navigator.vibrate) navigator.vibrate([200, 200, 200, 200, 200]);
@@ -511,7 +511,7 @@ async function drawWeekChart() {
     const v = data[s.id] || 0;
     if (v > 0) {
       labels.push(s.name);
-      values.push(Math.round(v / 60 * 10) / 10);
+      values.push(v)     // Math.round(v / 60 * 10) / 10); 시간 나타내던것을 분으로 그냥 표시 
     }
   });
 
@@ -526,7 +526,7 @@ async function drawWeekChart() {
     data: {
       labels,
       datasets: [{
-        label: "시간",
+        label: "분",      //시간을 분으로 바꿈 바로 인지하게
         data: values
       }]
     },
@@ -541,6 +541,7 @@ async function drawWeekChart() {
 
 
 main();
+
 
 
 
