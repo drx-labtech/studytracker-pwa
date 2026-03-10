@@ -515,6 +515,9 @@ async function drawWeekChart() {
     }
   });
 
+  console.log("labels =", labels);
+  console.log("values =", values);
+  
   const canvas = document.getElementById("weekChart");
   if (!canvas) return;
 
@@ -538,6 +541,7 @@ async function drawWeekChart() {
 
 
 main();
+
 
 
 
