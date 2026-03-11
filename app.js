@@ -3,7 +3,7 @@ import {
   getActiveSession, startSession, endSessionNow,
   statsToday, statsTotal, renameSubject,
   exportAll, importAll, resetTodaySessions, resetAllSessions, 
-  deleteSubject, getLast7DaysStats
+  deleteSubject, getLast7DaysStats, getLast7DaysDailyStats
 } from "./db.js";
 
 //alert("app.js loaded");
@@ -18,6 +18,9 @@ const $ = (id) => document.getElementById(id);
 
 let audioUnlocked = false;
 let audioCtx = null;
+
+let weekChartInstance = null;
+let weekDailyChartInstance = null;
 
 async function unlockAudioOnce() {
   if (audioUnlocked) return;
@@ -500,21 +503,64 @@ $("resetAllBtn").addEventListener("click", async () => {
   }
 }   // ✅ 이 줄(중괄호) 반드시 추가: main() 함수 닫기
 
-async function drawWeekChart() {
+aasync function drawWeekChart() {
   const data = await getLast7DaysStats(db);
   const subjects = await listSubjects(db);
 
   const labels = [];
   const values = [];
+  let totalMinutes = 0;
 
   subjects.forEach(s => {
-    const v = data[s.id] || 0;
+    const v = Number(data[s.id] || 0);
     if (v > 0) {
       labels.push(s.name);
-      values.push(v)     // Math.round(v / 60 * 10) / 10); 시간 나타내던것을 분으로 그냥 표시 
+      values.push(v); // 분 단위 그대로
+      totalMinutes += v;
     }
   });
 
+  const totalEl = document.getElementById("weekTotal");
+  if (totalEl) {
+    const hh = Math.floor(totalMinutes / 60);
+    const mm = totalMinutes % 60;
+    totalEl.textContent = `총합: ${totalMinutes}분 (${hh}시간 ${mm}분)`;
+  }
+
+  const canvas = document.getElementById("weekChart");
+  if (!canvas) return;
+
+  if (weekChartInstance) {
+    weekChartInstance.destroy();
+  }
+
+    weekChartInstance = new Chart(canvas, {
+    type: "bar",
+    data: {
+      labels,
+      datasets: [{
+        label: "집중시간(분)",
+        data: values,
+        backgroundColor: "#ff8a00"
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          suggestedMax: 60,
+          ticks: {
+            callback: (value) => `${value}분`
+          }
+        }
+      }
+    }
+  });
+}
   console.log("labels =", labels);
   console.log("values =", values);
   
@@ -538,9 +584,51 @@ async function drawWeekChart() {
     }
   });
 }
+async function drawWeekDailyChart() {
+  const data = await getLast7DaysDailyStats(db);
 
+  const labels = Object.keys(data).map(day => day.slice(5)); // MM-DD
+  const values = Object.values(data);
+
+  const canvas = document.getElementById("weekDailyChart");
+  if (!canvas) return;
+
+  if (weekDailyChartInstance) {
+    weekDailyChartInstance.destroy();
+  }
+
+  weekDailyChartInstance = new Chart(canvas, {
+    type: "bar",
+    data: {
+      labels,
+      datasets: [{
+        label: "집중시간(분)",
+        data: values,
+        backgroundColor: "#e5e5e8",
+        borderColor: "#ff8a00",
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          suggestedMax: 60,
+          ticks: {
+            callback: (value) => `${value}분`
+          }
+        }
+      }
+    }
+  });
+}
 
 main();
+
 
 
 
