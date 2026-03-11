@@ -285,33 +285,62 @@ export async function getLast7DaysStats(db) {
       const sessions = req.result;
       const map = {};
 
-      console.log("sinceDay =", sinceDay);
-      console.log("all sessions =", sessions);
-
       sessions.forEach(s => {
-        console.log("session =", s);
-
         if (!s.end_time) return;
         if (!s.start_day || s.start_day < sinceDay) return;
 
-        const start = new Date(s.start_time);
-        const end = new Date(s.end_time);
-        const minutes = Math.round((end - start) / 60000);
-
-        console.log("parsed minutes =", minutes);
-
+        const minutes = Number(s.minutes || 0);
         if (!Number.isFinite(minutes) || minutes <= 0) return;
 
         map[s.subject_id] = (map[s.subject_id] || 0) + minutes;
       });
 
-      console.log("week map final =", map);
       resolve(map);
     };
 
     req.onerror = () => reject(req.error);
   });
 }
+
+export async function getLast7DaysDailyStats(db) {
+  const days = [];
+  const today = new Date();
+
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(today.getDate() - i);
+    days.push(d.toISOString().slice(0, 10));
+  }
+
+  return new Promise((resolve, reject) => {
+    const store = tx(db, "sessions");
+    const req = store.getAll();
+
+    req.onsuccess = () => {
+      const sessions = req.result;
+      const map = {};
+
+      days.forEach(day => {
+        map[day] = 0;
+      });
+
+      sessions.forEach(s => {
+        if (!s.end_time) return;
+        if (!s.start_day || !map.hasOwnProperty(s.start_day)) return;
+
+        const minutes = Number(s.minutes || 0);
+        if (!Number.isFinite(minutes) || minutes <= 0) return;
+
+        map[s.start_day] += minutes;
+      });
+
+      resolve(map);
+    };
+
+    req.onerror = () => reject(req.error);
+  });
+}
+
 
 
 
