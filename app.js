@@ -542,7 +542,7 @@ async function drawWeekChart() {
     totalEl.textContent = `총합: ${totalMinutes}분 (${hh}시간 ${mm}분)`;
   }
 
-  const canvas = document.getElementById("weekChart");
+  const canvas = document.getElementById("subjetWeekChart");
   if (!canvas) return;
 
   if (weekChartInstance) {
@@ -621,6 +621,7 @@ async function drawWeekDailyChart() {
 }
 
 main();
+
 
 
 
