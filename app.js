@@ -518,7 +518,7 @@ $("resetAllBtn").addEventListener("click", async () => {
   }
 }   // ✅ 이 줄(중괄호) 반드시 추가: main() 함수 닫기
 
-aasync function drawWeekChart() {
+async function drawWeekChart() {
   const data = await getLast7DaysStats(db);
   const subjects = await listSubjects(db);
 
@@ -576,29 +576,7 @@ aasync function drawWeekChart() {
     }
   });
 }
-  console.log("labels =", labels);
-  console.log("values =", values);
   
-  const canvas = document.getElementById("weekChart");
-  if (!canvas) return;
-
-  new Chart(canvas, {
-    type: "bar",
-    data: {
-      labels,
-      datasets: [{
-        label: "분",      //시간을 분으로 바꿈 바로 인지하게
-        data: values
-      }]
-    },
-    options: {
-      plugins: { legend: { display: false } },
-      scales: {
-        y: { beginAtZero: true }
-      }
-    }
-  });
-}
 async function drawWeekDailyChart() {
   const data = await getLast7DaysDailyStats(db);
 
@@ -643,6 +621,7 @@ async function drawWeekDailyChart() {
 }
 
 main();
+
 
 
 
