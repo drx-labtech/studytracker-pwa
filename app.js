@@ -529,7 +529,7 @@ aasync function drawWeekChart() {
   subjects.forEach(s => {
     const v = Number(data[s.id] || 0);
     if (v > 0) {
-      labels.push(s.name);
+      labels.push(shortLabel(s.name));
       values.push(v); // 분 단위 그대로
       totalMinutes += v;
     }
@@ -643,6 +643,7 @@ async function drawWeekDailyChart() {
 }
 
 main();
+
 
 
 
