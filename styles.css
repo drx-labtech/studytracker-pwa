@@ -240,3 +240,19 @@ button, .fileLabel { font-size: 16px; }
 #renameSubject::placeholder {
   font-size: 13px;
 }
+
+.card h3 {
+  margin-top: 14px;
+  margin-bottom: 8px;
+  font-size: 15px;
+}
+
+#weekTotal {
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.about-section ul {
+  padding-left: 18px;
+  line-height: 1.6;
+}
