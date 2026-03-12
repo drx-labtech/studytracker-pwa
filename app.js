@@ -360,6 +360,10 @@ async function main() {
       await startSession(db, subject_id, minutes);
       await refreshSessionUI();
       await refreshStats();
+      await drawWeekChart();
+      await drawWeekDailyChart();
+
+      
     } catch (e) {
       alert(String(e.message || e));
     }
@@ -378,6 +382,8 @@ async function main() {
 
       await refreshSessionUI();
       await refreshStats();
+      await drawWeekChart();
+      await drawWeekDailyChart();
     } catch (e) {
       alert(String(e.message || e));
     }
@@ -397,6 +403,8 @@ async function main() {
       await startSession(db, lastSubjectId, lastMinutes);
       await refreshSessionUI();
       await refreshStats();
+      await drawWeekChart();
+      await drawWeekDailyChart();
     } catch (e) {
       alert(String(e.message || e));
     }
@@ -417,6 +425,8 @@ async function main() {
       await refreshSubjects(false);
       await refreshSessionUI();
       await refreshStats();
+      await drawWeekChart();
+      await drawWeekDailyChart();
       alert("가져오기 완료");
     } catch (e) {
       alert(String(e.message || e));
@@ -444,6 +454,8 @@ async function main() {
       await deleteSubject(db, id);
       await refreshSubjects(false);
       await refreshStats();
+      await drawWeekChart();
+      await drawWeekDailyChart();
     } catch (e) {
       alert(String(e.message || e));
     }
@@ -472,6 +484,8 @@ $("resetTodayBtn").addEventListener("click", async () => {
     await resetTodaySessions(db);
     await refreshSessionUI();
     await refreshStats();
+    await drawWeekChart();
+    await drawWeekDailyChart();
   } catch (e) {
     alert(String(e.message || e));
   }
@@ -492,6 +506,7 @@ $("resetAllBtn").addEventListener("click", async () => {
   await refreshSessionUI();
   await refreshStats();
   await drawWeekChart();
+  await drawWeekDailyChart();
   
   //PWA 등록
   // PWA 등록
@@ -628,6 +643,7 @@ async function drawWeekDailyChart() {
 }
 
 main();
+
 
 
 
