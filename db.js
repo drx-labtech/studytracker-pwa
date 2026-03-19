@@ -287,14 +287,16 @@ export async function getLast7DaysStats(db) {
 
       sessions.forEach(s => {
         if (!s.end_time) return;
-        if (!s.start_day || s.start_day < sinceDay) return;
-
+      
+        const day = s.start_day || String(s.start_time || "").slice(0, 10);
+        if (!day || day < sinceDay) return;
+      
         const minutes = Number(s.minutes || 0);
         if (!Number.isFinite(minutes) || minutes <= 0) return;
-
+      
         map[s.subject_id] = (map[s.subject_id] || 0) + minutes;
       });
-
+      
       resolve(map);
     };
 
@@ -326,14 +328,16 @@ export async function getLast7DaysDailyStats(db) {
 
       sessions.forEach(s => {
         if (!s.end_time) return;
-        if (!s.start_day || !map.hasOwnProperty(s.start_day)) return;
-
+      
+        const day = s.start_day || String(s.start_time || "").slice(0, 10);
+        if (!day || !map.hasOwnProperty(day)) return;
+      
         const minutes = Number(s.minutes || 0);
         if (!Number.isFinite(minutes) || minutes <= 0) return;
-
-        map[s.start_day] += minutes;
+      
+        map[day] += minutes;
       });
-
+      
       resolve(map);
     };
 
