@@ -291,7 +291,8 @@ export async function getLast7DaysStats(db) {
         const day = s.start_day || String(s.start_time || "").slice(0, 10);
         if (!day || day < sinceDay) return;
       
-        const minutes = Number(s.minutes || 0);
+        //const minutes = Number(s.minutes || 0);
+        const minutes = Number(s.duration_min || 0);
         if (!Number.isFinite(minutes) || minutes <= 0) return;
       
         map[s.subject_id] = (map[s.subject_id] || 0) + minutes;
@@ -333,7 +334,8 @@ export async function getLast7DaysDailyStats(db) {
         const day = s.start_day || String(s.start_time || "").slice(0, 10);
         if (!day || !map.hasOwnProperty(day)) return;
       
-        const minutes = Number(s.minutes || 0);
+        //const minutes = Number(s.minutes || 0);
+        const minutes = Number(s.duration_min || 0);
         if (!Number.isFinite(minutes) || minutes <= 0) return;
       
         map[day] += minutes;
