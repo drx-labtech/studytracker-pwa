@@ -525,33 +525,47 @@ function shortLabel(name) {
   return name;
 }
 
-
 async function drawWeekChart() {
   const data = await getLast7DaysStats(db);
   const subjects = await listSubjects(db);
 
-  console.log("week subject data =", data);
-  console.log("subjects =", subjects);
+  // console.log("week subject data =", data);
+  // console.log("subjects =", subjects);
 
-
-  
-  const labels = [];
-  const values = [];
+  const items = [];
   let totalMinutes = 0;
 
   subjects.forEach(s => {
     const v = Number(data[s.id] || 0);
     if (v > 0) {
-      labels.push(shortLabel(s.name));
-      values.push(v); // 분 단위 그대로
+      items.push({
+        name: s.name,
+        minutes: v
+      });
       totalMinutes += v;
     }
   });
 
-  console.log("week labels =", labels);
-  console.log("week values =", values);
+  // 많이 한 순 정렬
+  items.sort((a, b) => b.minutes - a.minutes);
 
-  
+  // 상위 5개 + 나머지 기타
+  const topItems = items.slice(0, 5);
+  const restItems = items.slice(5);
+
+  const otherMinutes = restItems.reduce((sum, item) => sum + item.minutes, 0);
+
+  const labels = topItems.map(item => shortLabel(item.name));
+  const values = topItems.map(item => item.minutes);
+
+  if (otherMinutes > 0) {
+    labels.push("기타");
+    values.push(otherMinutes);
+  }
+
+  // console.log("week labels =", labels);
+  // console.log("week values =", values);
+
   const totalEl = document.getElementById("weekTotal");
   if (totalEl) {
     const hh = Math.floor(totalMinutes / 60);
@@ -566,7 +580,7 @@ async function drawWeekChart() {
     weekChartInstance.destroy();
   }
 
-    weekChartInstance = new Chart(canvas, {
+  weekChartInstance = new Chart(canvas, {
     type: "bar",
     data: {
       labels,
@@ -592,8 +606,7 @@ async function drawWeekChart() {
       }
     }
   });
-}
-  
+}  
 async function drawWeekDailyChart() {
   const data = await getLast7DaysDailyStats(db);
   console.log("week daily data =", data);
