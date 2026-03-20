@@ -3,7 +3,7 @@ import {
   getActiveSession, startSession, endSessionNow,
   statsToday, statsTotal, renameSubject,
   exportAll, importAll, resetTodaySessions, resetAllSessions, 
-  deleteSubject, getLast7DaysStats, getLast7DaysDailyStats
+  deleteSubject, getLast7DaysStats, getLast7DaysDailyStats, debugAllSessions
 } from "./db.js";
 
 //alert("app.js loaded");
@@ -507,6 +507,8 @@ $("resetAllBtn").addEventListener("click", async () => {
   await refreshStats();
   await drawWeekChart();
   await drawWeekDailyChart();
+
+  console.log("raw sessions =", await debugAllSessions(db));
   
   //PWA 등록
   // PWA 등록
