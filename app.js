@@ -520,6 +520,12 @@ $("resetAllBtn").addEventListener("click", async () => {
   }
 }   // ✅ 이 줄(중괄호) 반드시 추가: main() 함수 닫기
 
+
+function shortLabel(name) {
+  return name;
+}
+
+
 async function drawWeekChart() {
   const data = await getLast7DaysStats(db);
   const subjects = await listSubjects(db);
