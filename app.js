@@ -588,6 +588,7 @@ async function drawWeekChart() {
   
 async function drawWeekDailyChart() {
   const data = await getLast7DaysDailyStats(db);
+  console.log("week daily data =", data);
 
   const labels = Object.keys(data).map(day => day.slice(5)); // MM-DD
   const values = Object.values(data);
