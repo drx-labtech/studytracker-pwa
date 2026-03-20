@@ -522,6 +522,11 @@ async function drawWeekChart() {
   const data = await getLast7DaysStats(db);
   const subjects = await listSubjects(db);
 
+  console.log("week subject data =", data);
+  console.log("subjects =", subjects);
+
+
+  
   const labels = [];
   const values = [];
   let totalMinutes = 0;
@@ -535,6 +540,10 @@ async function drawWeekChart() {
     }
   });
 
+  console.log("week labels =", labels);
+  console.log("week values =", values);
+
+  
   const totalEl = document.getElementById("weekTotal");
   if (totalEl) {
     const hh = Math.floor(totalMinutes / 60);
@@ -583,6 +592,9 @@ async function drawWeekDailyChart() {
   const labels = Object.keys(data).map(day => day.slice(5)); // MM-DD
   const values = Object.values(data);
 
+  console.log("daily labels =", labels);
+  console.log("daily values =", values);
+  
   const canvas = document.getElementById("weekDailyChart");
   if (!canvas) return;
 
