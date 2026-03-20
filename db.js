@@ -345,6 +345,13 @@ export async function getLast7DaysDailyStats(db) {
   });
 }
 
-
+export async function debugAllSessions(db) {
+  return new Promise((resolve, reject) => {
+    const store = tx(db, "sessions");
+    const req = store.getAll();
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
 
 
