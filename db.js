@@ -114,6 +114,38 @@ export async function endSessionNow(db) {
   });
 }
 
+//배터리 절약 모드 대응  추가
+//종료 시각을 외부에서 받음
+//하지만 planned_end_time보다 늦게 들어와도 거기서 잘라냄
+//그래서 10분 타이머가 40분으로 저장되지 않음
+
+export async function endSessionAt(db, endedAt) {
+  const active = await getActiveSession(db);
+  if (!active) throw new Error("진행 중인 세션이 없습니다.");
+
+  const start = new Date(active.start_time);
+  const plannedEnd = new Date(active.planned_end_time);
+  const requestedEnd = new Date(endedAt);
+
+  // 자동 종료에서는 planned_end_time을 절대 넘기지 않도록 clamp
+  const actualEnd = requestedEnd > plannedEnd ? plannedEnd : requestedEnd;
+
+  const dur = Math.max(0, Math.ceil((actualEnd - start) / 60000));
+
+  const updated = {
+    ...active,
+    end_time: actualEnd.toISOString(),
+    duration_min: dur
+  };
+
+  return new Promise((resolve, reject) => {
+    const store = tx(db, "sessions", "readwrite");
+    const req = store.put(updated);
+    req.onsuccess = () => resolve(updated);
+    req.onerror = () => reject(req.error);
+  });
+}
+
 export async function statsToday(db) {
   const day = new Date().toISOString().slice(0,10);
   return statsByStartDay(db, day);
