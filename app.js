@@ -641,6 +641,7 @@ async function drawWeekChart() {
     }
   });
 }  
+
 async function drawWeekDailyChart() {
   const data = await getLast7DaysDailyStats(db);
   console.log("week daily data =", data);
@@ -686,6 +687,7 @@ async function drawWeekDailyChart() {
       }
     }
   });
+}
 async function drawTotalChart() {
   const data = await statsTotal(db);
 
