@@ -385,7 +385,7 @@ async function main() {
       await refreshStats();
       await drawWeekChart();
       await drawWeekDailyChart();
-
+      await drawTotalChart();   // ✅ 여기 추가
       
     } catch (e) {
       alert(String(e.message || e));
@@ -407,6 +407,7 @@ async function main() {
       await refreshStats();
       await drawWeekChart();
       await drawWeekDailyChart();
+      await drawTotalChart();
     } catch (e) {
       alert(String(e.message || e));
     }
@@ -428,6 +429,7 @@ async function main() {
       await refreshStats();
       await drawWeekChart();
       await drawWeekDailyChart();
+      await drawTotalChart();
     } catch (e) {
       alert(String(e.message || e));
     }
@@ -450,6 +452,7 @@ async function main() {
       await refreshStats();
       await drawWeekChart();
       await drawWeekDailyChart();
+      await drawTotalChart();
       alert("가져오기 완료");
     } catch (e) {
       alert(String(e.message || e));
@@ -479,6 +482,7 @@ async function main() {
       await refreshStats();
       await drawWeekChart();
       await drawWeekDailyChart();
+      await drawTotalChart();
     } catch (e) {
       alert(String(e.message || e));
     }
@@ -495,6 +499,7 @@ async function main() {
       $("renameSubject").value = "";
       await refreshSubjects(false);
       await refreshStats();
+      await drawTotalChart();
     } catch (e) {
       alert(String(e.message || e));
     }
@@ -509,6 +514,7 @@ $("resetTodayBtn").addEventListener("click", async () => {
     await refreshStats();
     await drawWeekChart();
     await drawWeekDailyChart();
+    await drawTotalChart();
   } catch (e) {
     alert(String(e.message || e));
   }
@@ -521,6 +527,7 @@ $("resetAllBtn").addEventListener("click", async () => {
     await resetAllSessions(db);
     await refreshSessionUI();
     await refreshStats();
+    await drawTotalChart();
   } catch (e) {
     alert(String(e.message || e));
   }
@@ -530,6 +537,7 @@ $("resetAllBtn").addEventListener("click", async () => {
   await refreshStats();
   await drawWeekChart();
   await drawWeekDailyChart();
+  await drawTotalChart();
   
   // ✅ 여기 추가
   wireWakeChecks();
@@ -678,6 +686,50 @@ async function drawWeekDailyChart() {
       }
     }
   });
+async function drawTotalChart() {
+  const data = await statsTotal(db);
+
+  const labels = data.map(d => d.name);
+  const values = data.map(d => d.minutes);
+
+  const ctx = $("totalChart").getContext("2d");
+
+  if (window.totalChartInstance) {
+    window.totalChartInstance.destroy();
+  }
+
+  window.totalChartInstance = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels,
+      datasets: [{
+        label: "누적시간(분)",
+        data: values,
+        backgroundColor: "#ff8a00"
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false }
+      },
+      scales: {
+        x: {
+          ticks: { color: "#bdbdbd" },
+          grid: { color: "#222" }
+        },
+        y: {
+          beginAtZero: true,
+          ticks: {
+            color: "#bdbdbd",
+            callback: v => v + "분"
+          },
+          grid: { color: "#222" }
+        }
+      }
+    }
+  });
+  
 }
 
 main();
