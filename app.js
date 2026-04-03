@@ -135,9 +135,14 @@ async function refreshSessionUI() {
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    return;
+    return;  
   }
 
+   // 먼저 만료 검사
+  const finalized = await finalizeExpiredSession(active);
+  if (finalized) return;
+
+  
   // ✅ 추가: subject_id → 과목명 찾기
   const subs = await listSubjects(db);
   const map = new Map(subs.map(s => [Number(s.id), s.name]));
@@ -156,52 +161,26 @@ async function refreshSessionUI() {
     `종료(예정): ${end.toLocaleString()}\n` +
     `총 ${mins}분`
   );
-
-
   stopTick();
-   tickTimer = setInterval(async () => {
-     const now = new Date();
-
-     const totalSec = Math.floor((end - start) / 1000);
-     const remainSec = Math.floor((end - now) / 1000);
-
-     if (remainSec <= 0) {
-       if (autoEnding) return;     // 중복 방지
-       autoEnding = true;
-
-       stopTick();                 // interval 끊기
-       drawRing(1);
-
-       // 완료 표시(원하면 문구는 바꿔도 됨)
-       setCountdown("완료");
-
-       // ✅ 핵심: DB 세션 자동 종료
-       await endSessionNow(db);
-       playEndAlarm(3000);   // 알람 소리 추가 
-
-       autoEnding = false;
-
-       // ✅ UI/통계 갱신 → active가 없어져서 repeatBtn 활성화됨
-       await refreshSessionUI();
-       await refreshStats();
-       return;
-     }
-
-
-
-     const progress = Math.max(
-       0,
-       Math.min(1, 1 - remainSec / totalSec)
-     );
-
-     const mm = Math.floor(remainSec / 60);
-     const ss = remainSec % 60;
-
-     $("countdown").className = "countdown running"; // ⬅ 추가
-     setCountdown(`${mm}분 ${String(ss).padStart(2,"0")}초 남음`);
-     drawRing(progress);   // ⭐ 여기!
-   }, 1000);
-
+  tickTimer = setInterval(async () => {
+    const now = new Date();
+    const totalSec = Math.floor((end - start) / 1000);
+    const remainSec = Math.floor((end - now) / 1000);
+  
+    if (remainSec <= 0) {
+      stopTick();
+      await finalizeExpiredSession(active);
+      return;
+    }
+  
+    const progress = Math.max(0, Math.min(1, 1 - remainSec / totalSec));
+    const mm = Math.floor(remainSec / 60);
+    const ss = remainSec % 60;
+  
+    $("countdown").className = "countdown running";
+    setCountdown(`${mm}분 ${String(ss).padStart(2, "0")}초 남음`);
+    drawRing(progress);
+  }, 1000); 
 }
 
 function wirePresetButtons() {
@@ -307,8 +286,51 @@ function playEndAlarm(ms = 3000) {
   }
 }
 
+async function finalizeExpiredSession(active) {
+  if (!active) return false;
 
+  const endMs = new Date(active.planned_end_time).getTime();
+  const nowMs = Date.now();
 
+  if (nowMs < endMs) return false;
+  if (autoEnding) return true;
+
+  autoEnding = true;
+  try {
+    stopTick();
+    drawRing(1);
+    $("countdown").className = "countdown done";
+    setCountdown("완료");
+
+    // 중요: 지금 시각이 아니라 planned_end_time 으로 종료 저장
+    await endSessionAt(db, active.planned_end_time);
+
+    playEndAlarm(3000);
+    await refreshSessionUI();
+    await refreshStats();
+    await drawWeekChart();
+    await drawWeekDailyChart();
+    return true;
+  } finally {
+    autoEnding = false;
+  }
+}
+
+// 추가된 것
+function wireWakeChecks() {
+  const onWake = async () => {
+    await refreshSessionUI();
+    await refreshStats();
+    await drawWeekChart();
+    await drawWeekDailyChart();
+  };
+
+  window.addEventListener("focus", onWake);
+  window.addEventListener("pageshow", onWake);
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) onWake();
+  });
+}
 
 async function main() {
   db = await initDB();
@@ -507,7 +529,10 @@ $("resetAllBtn").addEventListener("click", async () => {
   await refreshStats();
   await drawWeekChart();
   await drawWeekDailyChart();
-
+  
+  // ✅ 여기 추가
+  wireWakeChecks();
+  
   console.log("raw sessions =", await debugAllSessions(db));
   
   //PWA 등록
