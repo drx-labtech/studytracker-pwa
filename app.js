@@ -1,6 +1,6 @@
 import {
   initDB, listSubjects, addSubject,
-  getActiveSession, startSession, endSessionNow, endSessionNow, 
+  getActiveSession, startSession, endSessionNow, endSessionAt,
   statsToday, statsTotal, renameSubject,
   exportAll, importAll, resetTodaySessions, resetAllSessions, 
   deleteSubject, getLast7DaysStats, getLast7DaysDailyStats, debugAllSessions
