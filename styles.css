@@ -257,19 +257,103 @@ button, .fileLabel { font-size: 16px; }
   line-height: 1.6;
 }
 /* ===== 다크모드 강제 적용 ===== */
-body {
+/* ===== StudyTracker dark theme safe patch ===== */
+
+:root {
+  --bg: #000000;
+  --card: #111111;
+  --card-2: #1a1a1a;
+  --text: #f5f5f5;
+  --muted: #bdbdbd;
+  --border: #3a3a3a;
+  --accent: #ff8a00;
+}
+
+html, body {
   margin: 0;
   font-size: 16px;
-  background: #000;
-  color: #fff;
+  background: var(--bg);
+  color: var(--text);
 }
 
-input, select, button {
-  background: #111;
-  color: #fff;
-  border: 1px solid #444;
+/* 페이지 전체 기본 글자색 */
+body, p, div, span, label, h1, h2, h3, h4, h5, h6, li {
+  color: var(--text);
 }
 
-.container {
-  background: #111;
+/* 카드/패널류 */
+.card, .panel, .section, .box, .container {
+  background: var(--card);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+/* 안내문, 보조문구 */
+small, .hint, .muted, .desc {
+  color: var(--muted);
+}
+
+/* 입력요소 강제 다크 */
+input,
+select,
+textarea {
+  background: #0b0b0b !important;
+  color: #ffffff !important;
+  border: 1px solid var(--border) !important;
+  -webkit-text-fill-color: #ffffff !important;
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 16px;
+}
+
+/* placeholder */
+input::placeholder,
+textarea::placeholder {
+  color: #9a9a9a !important;
+  -webkit-text-fill-color: #9a9a9a !important;
+}
+
+/* select 안 글자 */
+option {
+  color: #ffffff;
+  background: #111111;
+}
+
+/* 버튼 */
+button,
+.btn,
+.chip {
+  background: #111111 !important;
+  color: #ffffff !important;
+  border: 1px solid var(--border) !important;
+}
+
+/* 삭제 버튼처럼 포인트 버튼 */
+button.danger,
+.btn-danger,
+#deleteSubjectBtn,
+#resetTodayBtn,
+#resetAllBtn {
+  color: var(--accent) !important;
+  border-color: #d8b083 !important;
+}
+
+/* 링크 */
+a {
+  color: #9c5cff;
+}
+
+/* 구분선 */
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+}
+
+/* 카운트다운 */
+.countdown.running {
+  color: #ffffff !important;
+}
+
+.countdown.done {
+  color: var(--accent) !important;
 }
