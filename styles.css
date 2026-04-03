@@ -390,12 +390,125 @@ label[for="importFile"],
   color: #fff !important;
   border: 1px solid #444 !important;
 }
-/* 상단 큰 박스/섹션 */
-.top-section,
-.hero-section,
-.intro,
-.banner,
-section:first-of-type {
+/* ===== 상단 바 ===== */
+.topbar {
   background: #000 !important;
   color: #fff !important;
+  border-bottom: 1px solid #222;
+}
+
+.topbar .title,
+.topbar .now {
+  color: #fff !important;
+}
+/* ===== 전체 기본 ===== */
+/* ===== StudyTracker dark theme final patch ===== */
+
+html, body {
+  margin: 0;
+  background: #000 !important;
+  color: #fff !important;
+  font-size: 16px;
+}
+
+.wrap {
+  background: #000 !important;
+}
+
+.topbar {
+  background: #000 !important;
+  color: #fff !important;
+  border-bottom: 1px solid #222;
+}
+
+.topbar .title,
+.topbar .now {
+  color: #fff !important;
+}
+
+.card,
+.section,
+.about-section {
+  background: #0b0b0b !important;
+  color: #fff !important;
+  border: 1px solid #2c2c2c !important;
+}
+
+.card h2,
+.card h3,
+.card p,
+.card div,
+.card label,
+.card li,
+.about-section h2,
+.about-section h3,
+.about-section p,
+.about-section li {
+  color: #fff !important;
+}
+
+.hint,
+.version,
+.total,
+.status {
+  color: #bdbdbd !important;
+}
+
+input,
+select,
+textarea {
+  background: #111 !important;
+  color: #fff !important;
+  border: 1px solid #444 !important;
+  -webkit-text-fill-color: #fff !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #8f8f8f !important;
+  -webkit-text-fill-color: #8f8f8f !important;
+}
+
+option {
+  background: #111;
+  color: #fff;
+}
+
+button,
+.chip,
+.primary {
+  background: #111 !important;
+  color: #fff !important;
+  border: 1px solid #444 !important;
+}
+
+.danger,
+#deleteSubjectBtn,
+#resetTodayBtn,
+#resetAllBtn {
+  color: #ff9800 !important;
+  border: 1px solid #d59b56 !important;
+  background: #111 !important;
+}
+
+.fileLabel {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #111 !important;
+  color: #fff !important;
+  border: 1px solid #444 !important;
+  border-radius: 16px;
+}
+
+.fileLabel .fileText {
+  color: #fff !important;
+}
+
+#importFile {
+  display: none;
+}
+
+a {
+  color: #9c5cff !important;
 }
