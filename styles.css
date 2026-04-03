@@ -357,3 +357,45 @@ hr {
 .countdown.done {
   color: var(--accent) !important;
 }
+/* 상단 헤더/타이틀 영역 */
+header,
+.topbar,
+.hero,
+.titlebar,
+.app-header {
+  background: #000 !important;
+  color: #fff !important;
+}
+
+header *,
+.topbar *,
+.hero *,
+.titlebar *,
+.app-header * {
+  color: #fff !important;
+}
+
+/* 제목 글자 */
+h1,
+.app-title,
+.logo-text {
+  color: #fff !important;
+}
+#importBtn,
+#importFile,
+label[for="importFile"],
+.import-btn,
+.import-label {
+  background: #111 !important;
+  color: #fff !important;
+  border: 1px solid #444 !important;
+}
+/* 상단 큰 박스/섹션 */
+.top-section,
+.hero-section,
+.intro,
+.banner,
+section:first-of-type {
+  background: #000 !important;
+  color: #fff !important;
+}
