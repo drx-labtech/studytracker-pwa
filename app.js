@@ -237,7 +237,8 @@ function drawRing(progress) {
       -Math.PI / 2,
       -Math.PI / 2 + Math.PI * 2 * progress
     );
-    ctx.strokeStyle = "#e5e5e8";
+    //ctx.strokeStyle = "#e5e5e8";
+    ctx.strokeStyle = "#333";
     ctx.lineWidth = 12;
     ctx.lineCap = "butt";
     ctx.stroke();
