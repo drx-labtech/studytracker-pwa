@@ -524,3 +524,8 @@ a {
   color: #000;           /* 검정 글씨 */
   font-weight: normal;   /* bold 제거 */
 }
+.chip.active {
+  background: #ff8a00;
+  color: #000;
+  transform: scale(1.05);
+}
