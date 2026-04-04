@@ -311,6 +311,7 @@ async function finalizeExpiredSession(active) {
     await refreshStats();
     await drawWeekChart();
     await drawWeekDailyChart();
+    await drawTotalChart();
     return true;
   } finally {
     autoEnding = false;
@@ -707,7 +708,9 @@ async function drawTotalChart() {
       datasets: [{
         label: "누적시간(분)",
         data: values,
-        backgroundColor: "#ff8a00"
+        backgroundColor: "#ff8a00",
+        borderColor: "#ff8a00",
+        borderWidth: 1
       }]
     },
     options: {
