@@ -189,9 +189,14 @@ function wirePresetButtons() {
       document.querySelectorAll(".chip").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
       $("customMin").value = ""; // 프리셋 선택 시 직접입력 비움
+      $("customMin").blur();       // (선택) 키보드 내려감
     });
   });
-
+  // 직접 입력 시 버튼 해제
+  $("customMin").oninput = () => {
+    document.querySelectorAll(".chip")
+      .forEach(b => b.classList.remove("active"));
+  };
   $("customMin").addEventListener("input", () => {
     if (($("customMin").value || "").trim()) {
       document.querySelectorAll(".chip").forEach(b => b.classList.remove("active"));
