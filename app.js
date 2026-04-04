@@ -193,14 +193,19 @@ function wirePresetButtons() {
     });
   });
   // 직접 입력 시 버튼 해제
-  $("customMin").oninput = () => {
+ // $("customMin").oninput = () => {
+ //   document.querySelectorAll(".chip")
+  //    .forEach(b => b.classList.remove("active"));
+ // };   // 지우는 것 
+  //$("customMin").addEventListener("input", () => {
+  //  if (($("customMin").value || "").trim()) {
+  //    document.querySelectorAll(".chip").forEach(b => b.classList.remove("active"));
+   // }
+  //});
+// 직접 입력 시 버튼 해제
+  $("customMin").addEventListener("input", () => {
     document.querySelectorAll(".chip")
       .forEach(b => b.classList.remove("active"));
-  };
-  $("customMin").addEventListener("input", () => {
-    if (($("customMin").value || "").trim()) {
-      document.querySelectorAll(".chip").forEach(b => b.classList.remove("active"));
-    }
   });
 }
 
