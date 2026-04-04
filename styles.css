@@ -517,15 +517,12 @@ a {
   background: #1f2937;
   color: #ddd;
   border: 1px solid #444;
+  transition: all 0.15s ease;
 }
 
 .chip.active {
   background: #ff8a00;   /* 주황 */
   color: #000;           /* 검정 글씨 */
-  font-weight: normal;   /* bold 제거 */
+  transform: scale(1.05); /* 살짝 튀어나오는 느낌 */
 }
-.chip.active {
-  background: #ff8a00;
-  color: #000;
-  transform: scale(1.05);
-}
+
