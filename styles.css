@@ -521,8 +521,8 @@ a {
 }
 
 .chip.active {
-  background: #ff8a00;   /* 주황 */
-  color: #000;           /* 검정 글씨 */
-  transform: scale(1.05); /* 살짝 튀어나오는 느낌 */
+  background: #ff8a00 !important;
+  color: #000 !important;
+  border-color: #ff8a00 !important;
+  transform: scale(1.05);
 }
-
